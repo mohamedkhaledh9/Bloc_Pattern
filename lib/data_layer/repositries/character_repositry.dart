@@ -5,9 +5,10 @@ class CharactersRepository {
   final CharactersApi charactersApi;
 
   CharactersRepository(this.charactersApi);
- Future<List<Character>>getAllCharacters()async{
-   final characters=await charactersApi.getAllCharacters();
-   return characters.map((char) => Character.fromJson(char)).toList();
- }
 
+  Future<List<Character>> getAllCharacters() async {
+    final characters = await charactersApi.getAllCharacters();
+    print(characters);
+    return characters.map((char) => Character.fromJson(char)).toList();
+  }
 }

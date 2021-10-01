@@ -1,5 +1,4 @@
 import 'package:apis/business_logic_layer/characters_cubit.dart';
-import 'package:apis/data_layer/api_services/characters_api.dart';
 import 'package:apis/data_layer/models/character_model.dart';
 import 'package:apis/presentation_layer/widgets/character_view.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +12,13 @@ class CharactersScreen extends StatefulWidget {
 }
 
 class _CharactersScreenState extends State<CharactersScreen> {
-  List<Character>? allCharacters;
+  late List<Character> allCharacters;
 
   Widget buildBlocWidget() {
     return BlocBuilder<CharactersCubit, CharactersState>(
       builder: (context, state) {
         if (state is CharactersLoaded) {
+          allCharacters = state.characters;
           return buildLoadedListWidget();
         } else {
           return loadingIndicator();
@@ -38,7 +38,9 @@ class _CharactersScreenState extends State<CharactersScreen> {
       child: Container(
         color: Colors.grey,
         child: Column(
-          children: [],
+          children: [
+            buildCharactersList(),
+          ],
         ),
       ),
     );
@@ -48,20 +50,23 @@ class _CharactersScreenState extends State<CharactersScreen> {
     return GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 1,
-          mainAxisExtent: 1,
+          childAspectRatio: 2 / 3,
+          mainAxisSpacing: 1,
         ),
         shrinkWrap: true,
+        itemCount: allCharacters.length,
+        padding: EdgeInsets.zero,
         physics: ClampingScrollPhysics(),
         itemBuilder: (context, index) {
-          return CharacterView();
+          return CharacterView(character: allCharacters[index]);
         });
   }
 
   @override
   void initState() {
-    allCharacters =
-        BlocProvider.of<CharactersCubit>(context).getAllCharacters();
+    super.initState();
+    BlocProvider.of<CharactersCubit>(context).getAllCharacters();
+    print(allCharacters);
   }
 
   @override
