@@ -8,6 +8,7 @@ class Character {
   late List<dynamic> appearance;
   late String category;
   List<dynamic> bettertCallSaulAppearance;
+  late String status;
 
   Character(
       {required this.id,
@@ -18,7 +19,7 @@ class Character {
       required this.category,
       required this.image,
       required this.jobs,
-      required this.nickName});
+      required this.nickName,required this.status});
   factory Character.fromJson(Map<String,dynamic>jsonData){
     return Character(
       id: jsonData['char_id'],
@@ -30,6 +31,7 @@ class Character {
       name: jsonData['name'],
       nickName: jsonData['nickname'],
       bettertCallSaulAppearance: jsonData['better_call_saul_appearance'],
+      status: jsonData['status']
     );
   }
 }
